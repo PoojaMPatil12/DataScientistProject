@@ -2,9 +2,13 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-app.get("/")
+@app.get("/")  # Ensure the decorator is correct
 async def root():
-    return {"message": "Application is up and running!"}
+    return "Application is up and running!"
 
 
+@app.get("/Information")
+async def info():
+    
 
+    return "Information needs to added here"
