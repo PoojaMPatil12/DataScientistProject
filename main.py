@@ -2,6 +2,8 @@ from fastapi import FastAPI, Request
 import json  
 from ollama import chat
 from ollama import ChatResponse
+from Supervised_learning import supervised_learning_alg
+
 
  
 app = FastAPI()
@@ -37,4 +39,24 @@ async def ds_info(user_query):
     print(response.message.content)
 
     return response.message.content
+
+@app.post("/supervised_learning")  
+async def supervised_learning(request: Request):
+    try:
+        request_json = await request.json() 
+        user_query = request_json.get('query', None)
+        operation = request_json.get('operation', None)
+        sub_operation = request_json.get('sub_operation', None)
+        Area = request_json.get('Area', 0) 
+
+        result = await supervised_learning_alg(user_query,operation, sub_operation, Area)
+        return {"message": "Success","query": user_query, "operation": operation, "sub_operation":sub_operation, "Response": result}   
+
+    except Exception as e:
+        return {"error": str(e)}       
+
+
+
+    
+
         
